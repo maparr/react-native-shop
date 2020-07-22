@@ -11,46 +11,23 @@
 import React, { useEffect } from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
 } from 'react-native';
 
 import {
   Router,
   Scene,
-  Lightbox,
   Stack,
   Actions,
 } from 'react-native-router-flux';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
 import { useDispatch, Provider } from 'react-redux'
-import { getProducts } from './src/services';
-import { Product } from './src/common';
 import { fetchProducts } from './src/store';
 import { store, persistor } from './src/store';
 import { Loading } from './src/components';
 import { Checkout, CartDetails, Categories, Products, ProductDetails } from './src/screens';
 
 declare const global: {HermesInternal: null | {}};
-
-const Cart = () => {
-  return (
-    <Text>Cart</Text>
-  )
-}
-
 
 const styles = StyleSheet.create({
   navBar: {
@@ -97,44 +74,44 @@ const CommonHeaderStyles = {
 
 const Routes = () => {
   const dispatch = useDispatch()
- 
+
   useEffect(() => {
     dispatch(fetchProducts())
   }, []);
 
   return (
     <Router>
-      <Stack 
+      <Stack
         key="root"
         navigationBarStyle={styles.navBar}
       >
-        <Scene 
+        <Scene
           key="categories"
-          component={Categories} 
+          component={Categories}
           title="Categories"
           rightTitle={"Cart"}
           onRight={() => Actions.cart() }
           {...CommonHeaderStyles}
         />
-        <Scene 
+        <Scene
           key="cart" component={CartDetails}
           title="Cart"
           {...CommonHeaderStyles}
          />
-         <Scene 
+         <Scene
           key="checkout" component={Checkout}
           title="Checkout"
           onLeft={() => Actions.categories() }
           {...CommonHeaderStyles}
          />
-         <Scene 
+         <Scene
           key="products" component={Products}
           title="Products"
           rightTitle={"Cart"}
           onRight={() => Actions.cart() }
           {...CommonHeaderStyles}
          />
-         <Scene 
+         <Scene
           key="product" component={ProductDetails}
           title="Product"
           rightTitle={"Cart"}
@@ -145,7 +122,6 @@ const Routes = () => {
     </Router>
   );
 };
-
 
 export default () => {
   return (

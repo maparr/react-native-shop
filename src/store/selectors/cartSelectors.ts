@@ -5,19 +5,13 @@ import {selectAllProducts} from './categoriesList';
 export const selectCart = (state: RootState) => state.cart;
 export const selectProductsInCart = createSelector(
   selectCart,
-  selectAllProducts,
-  ({products: productIdsInCart}, {products}) =>
-    products.filter(
-      ({id}) =>
-        productIdsInCart.findIndex(
-          (selectedProductId) => selectedProductId === id,
-        ) !== -1,
-    ),
+  ({products}) => Object.values(products),
 );
-
-// export const selectAllProducts = (state: RootState) => state.products;
-// export const selectCategories = (state: RootState) => state.products;
-// export const selectProductsInCategory = createSelector(
-//     selectAllProducts,
-//     ({products}) => products
-// );
+export const selectTotalPrice = createSelector(
+    selectProductsInCart,
+    (products) => products.reduce((acc, product) => ((product.amount * 25) + acc), 0),
+);
+export const selectTotalProductsInCart = createSelector(
+    selectProductsInCart,
+    (products) => products.reduce((acc, product) => product.amount + acc, 0),
+);
